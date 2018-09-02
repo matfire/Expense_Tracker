@@ -17,4 +17,5 @@ class Inlet(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField(null=True, blank=True)
     category = models.ForeignKey(Inlet_Category, on_delete=models.CASCADE)
-    user = models.ForeignKey(user_model, on_delete=models.CASCADE)
+    user = models.ForeignKey(user_model, on_delete=models.CASCADE, blank=True, null=True)
+    value = models.DecimalField(decimal_places=2, max_digits=10, default=0)

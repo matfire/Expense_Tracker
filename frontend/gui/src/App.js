@@ -4,7 +4,6 @@ import BaseRouter from './routes';
 import 'antd/dist/antd.css'
 
 import CustomLayout from './containers/layout';
-import ExpenseCategoryList from './containers/expense_category_list';
 class App extends Component {
 	render() {
 		return (
