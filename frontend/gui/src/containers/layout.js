@@ -1,10 +1,8 @@
 import React from 'react'
-import { Layout, Menu, Icon } from 'antd';
-import { NavLink, withRouter } from 'react-router-dom';
+import { Layout } from 'antd';
 import SideMenu from '../components/menu';
 
 const { Header, Content, Footer, Sider } = Layout;
-const SubMenu = Menu.SubMenu;
 
 class CustomLayout extends React.Component {
 
@@ -23,7 +21,7 @@ class CustomLayout extends React.Component {
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>
-            Ant Design ©2018 Created by Ant UED
+          Mind Your Budget ©2018 Created by Matteo Gassend
           </Footer>
         </Layout>
       </Layout>

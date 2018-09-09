@@ -5,6 +5,7 @@ import CollectionsPage from './inlet_add_form';
 
 
 const InletTable = (props) => {
+  
   const columns = [
     {
       title: 'Name',
@@ -21,15 +22,19 @@ const InletTable = (props) => {
     {
       title: 'Category',
       dataIndex: 'category',
+    },
+    {
+      title: 'Date',
+      dataIndex: 'date',
     }
   ]
   const getRowKey = (record) => {
-    return record.name
+    return record.id
   }
-  
+
   return (
       <div>
-        <CollectionsPage />
+        <CollectionsPage update={props.update}/>
         <Table columns={columns} dataSource={props.data} rowKey={getRowKey}/>
       </div>
     );

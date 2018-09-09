@@ -1,18 +1,22 @@
-import { Button, Modal, Form, Input, Select } from 'antd';
+import { Button, Modal, Form, Input, Select, Alert } from 'antd';
+import { DatePicker } from 'antd';
+
 import React from 'react';
 import axios from 'axios';
-import CSRFToken from '../csrf'
+import Cookie from 'js-cookie';
 const FormItem = Form.Item;
-
 const CollectionCreateForm = Form.create()(
   class extends React.Component {
 	  state = {
 		  categories : []
 	  }
 	componentDidMount() {
-		axios.defaults.xsrfCookieName = 'csrftoken'
-		axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-		axios.get("http://127.0.0.1:8000/api/budget/category/").then(res => {this.setState({categories:res.data})})
+		// axios.defaults.xsrfCookieName = 'csrftoken'
+		// axios.defaults.xsrfHeaderName = 'X-CSRFToken'
+		axios.get("http://127.0.0.1:8000/api/budget/category/", {
+      headers : {"Authorization" : Cookie.get("Authorization")}
+
+    }).then(res => {this.setState({categories:res.data})}).catch(res=>console.log(res))
 	}
 
 
@@ -32,25 +36,34 @@ const CollectionCreateForm = Form.create()(
           onOk={onCreate}
         >
           <Form layout="vertical">
-		  	<CSRFToken />
             <FormItem label="name" id="id_name">
               {getFieldDecorator('name', {
-                rules: [{ required: true, message: 'Please input the title of collection!' }],
+                rules: [{ required: true, message: 'Please input a title for the inlet' }],
               })(
                 <Input name="name" id="id_name"/>
               )}
             </FormItem>
             <FormItem label="description" id="id_description">
-              {getFieldDecorator('description')(<Input name="description" id="id_description"/>)}
+              {getFieldDecorator('description', {
+                rules : [{required:true, message: 'Please input a description'}],
+              })(<Input name="description" id="id_description"/>)}
             </FormItem>
 			<FormItem label="value" id="id_value">
-			  {getFieldDecorator('value')(<Input type="number" name="value" id="id_value"/>)}
+			  {getFieldDecorator('value', {
+          rules: [{required:true, message: 'Please input an inlet value'}],
+        })(<Input type="number" name="value" id="id_value"/>)}
 			</FormItem>
 			<FormItem label="category" id="id_category">
-			  <Select id="id_category">
+			  {getFieldDecorator("category", {
+          rules: [{required:true, message: 'Please select a category'}]
+        })(<Select id="id_category">
 				  {Options}
-			  </Select>
+			  </Select>)}
 			</FormItem>
+      <FormItem label="date" id="id_date">
+        <p>If you leave this blank, it will automatically be set to today</p>
+        {getFieldDecorator("date")(<DatePicker/>)}
+      </FormItem>
           </Form>
         </Modal>
       );
@@ -61,6 +74,7 @@ const CollectionCreateForm = Form.create()(
 class CollectionsPage extends React.Component {
   state = {
     visible: false,
+    message_visible : false,
   };
 
   showModal = () => {
@@ -77,9 +91,14 @@ class CollectionsPage extends React.Component {
       if (err) {
         return;
       }
-
-	  console.log('Received values of form: ', values);
-	  axios.post("http://127.0.0.1:8000/api/budget/inlet/add/", values).then( res => {console.log(res)})
+    axios.post("http://127.0.0.1:8000/api/budget/inlet/add/", values, {
+      headers : {"Authorization" : Cookie.get("Authorization")}
+    }).then( res => {
+      if (true) {
+        this.setState({message_visible : true});
+        this.props.update;
+      }
+    })
       form.resetFields();
 	  this.setState({ visible: false });
 	  //window.location.reload()
@@ -90,10 +109,14 @@ class CollectionsPage extends React.Component {
     this.formRef = formRef;
   }
 
+
+
   render() {
+    const alert = (this.state.message_visible === true) ? <Alert message="Inlet added succesfully" type="success" closable={true}/> : <p></p>;
 
     return (
       <div>
+        {alert}
         <Button type="primary" onClick={this.showModal}>Add Inlet</Button>
         <CollectionCreateForm
           wrappedComponentRef={this.saveFormRef}

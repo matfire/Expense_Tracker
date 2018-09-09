@@ -16,9 +16,20 @@ Including another URLconf
 from django.conf.urls import url
 from django.urls import path, include
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
+
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     path('api-auth/', include("rest_framework.urls")),
     path("api/budget/", include("Budget.api.urls")),
+    path("api/users/", include("Administration.api.urls")),
+    
+]
+from rest_framework.authtoken import views
+urlpatterns += [
+    url(r'^api-token-auth/', views.obtain_auth_token)
 ]
