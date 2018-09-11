@@ -15,7 +15,7 @@ class NormalLoginForm extends React.Component {
         console.log('Received values of form: ', values);
         axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
         axios.defaults.xsrfCookieName = "csrftoken";
-        axios.post("http://localhost:8000/api-token-auth/", values).then(res=>{
+        axios.post("http://www.mindyourbudgetapi.matteogassend.com/api-token-auth/", values).then(res=>{
           Cookie.set("Authorization", "Token " + res.data.token)
           this.props.handleSubmit();
           this.props.history.push("/");
