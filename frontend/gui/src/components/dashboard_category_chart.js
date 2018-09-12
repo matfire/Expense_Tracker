@@ -10,8 +10,7 @@ class Category_Chart extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log(Cookie.get("Authorization"))
-		axios.get("http://www.mindyourbudgetapi.matteogassend.com/api/budget/category/chart/", {
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/chart/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {this.setState({data: res.data})})
 	}

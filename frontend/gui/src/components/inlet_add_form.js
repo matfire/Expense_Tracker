@@ -13,7 +13,7 @@ const CollectionCreateForm = Form.create()(
 	componentDidMount() {
 		// axios.defaults.xsrfCookieName = 'csrftoken'
 		// axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-		axios.get("http://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
       headers : {"Authorization" : Cookie.get("Authorization")}
 
     }).then(res => {this.setState({categories:res.data})}).catch(res=>console.log(res))
@@ -91,7 +91,7 @@ class CollectionsPage extends React.Component {
       if (err) {
         return;
       }
-    axios.post("http://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/add/", values, {
+    axios.post("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/add/", values, {
       headers : {"Authorization" : Cookie.get("Authorization")}
     }).then( res => {
       if (true) {

@@ -10,7 +10,7 @@ class InletList extends React.Component {
 	componentDidMount() {
 		axios.defaults.xsrfCookieName = 'csrftoken'
 		axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-		axios.get('http://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/', {
+		axios.get('https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/', {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then( (res) => {
 			this.setState({data:res.data})
@@ -20,7 +20,7 @@ class InletList extends React.Component {
 	handleUpdate = () => {
 		axios.defaults.xsrfCookieName = 'csrftoken'
 		axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-		axios.get("http://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {
 			this.setState({

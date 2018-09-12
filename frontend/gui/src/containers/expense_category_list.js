@@ -50,7 +50,7 @@ class ExpenseCategoryCreateForm extends React.Component {
 		if (err) {
 		  return;
 		}
-		axios.post("http://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", values, {
+		axios.post("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", values, {
 			headers: {"Authorization" : Cookie.get("Authorization")}
 		})
 		form.resetFields();
@@ -83,7 +83,7 @@ class ExpenseCategoryList extends React.Component {
 	update = () => {
 		axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 		axios.defaults.xsrfCookieName = "csrftoken";
-		axios.get("http://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {
 			this.setState({
@@ -94,7 +94,7 @@ class ExpenseCategoryList extends React.Component {
 	componentDidMount() {
 		axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 		axios.defaults.xsrfCookieName = "csrftoken";
-		axios.get("http://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {
 			this.setState({

@@ -10,7 +10,7 @@ class Inlet_Chart extends React.Component {
 	}
 
 	componentDidMount() {
-		axios.get("http://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/chart/", {
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/chart/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {this.setState({data: res.data})})
 	}
