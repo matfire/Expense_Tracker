@@ -25,7 +25,7 @@ SECRET_KEY = 'r+(3rz!(8i@oom@l*)p!=f1-oa$o=%0@5_1%+#gccg=&7swciw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['188.166.56.89', 'www.matteogassend.com', 'www.mindyourbudgetapi.matteogassend.com', 'mindyourbudgetapi.matteogassend.com']
 
 
 # Application definition
@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mindyourbudget',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'ff2a5d47fee2ad2979201fa7d350257d26758d76dd53e723',
         'HOST' : '',
         'PORT' : '',
     }
@@ -127,6 +127,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = "Administration.User"
@@ -152,3 +154,5 @@ CORS_ALLOW_HEADERS = default_headers + (
     'sessionid',
     'Authentication',
 )
+SECURE_SSL_REDIRECT = True
+
