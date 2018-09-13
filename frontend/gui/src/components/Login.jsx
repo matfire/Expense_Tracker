@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 
 
-import { Form, Icon, Input, Button } from 'antd';
+import { Form, Icon, Input, Button, Row, Col, Card } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -12,7 +12,6 @@ class NormalLoginForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
         axios.defaults.xsrfCookieName = "csrftoken";
         axios.post("https://www.mindyourbudgetapi.matteogassend.com/api-token-auth/", values).then(res=>{
@@ -29,7 +28,8 @@ class NormalLoginForm extends React.Component {
     const { getFieldDecorator } = this.props.form;
     return (
       <div>
-      <Form onSubmit={this.handleSubmit} className="login-form" method="post">
+        <Row type="flex" justify="center">
+      <Form onSubmit={this.handleSubmit} className="login-form" method="post" layout="vertical">
         <FormItem>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
@@ -51,6 +51,7 @@ class NormalLoginForm extends React.Component {
           Or <a href="/register">register now!</a>
         </FormItem>
       </Form>
+      </Row>
       </div>
     );
   }

@@ -38,6 +38,11 @@ class LandingMenu extends React.Component {
 					<Icon type="lock" />Login
 				</NavLink>
 			</Menu.Item>
+			<Menu.Item key="/register">
+				<NavLink to="/register">
+					<Icon type="plus" />Register
+				</NavLink>
+			</Menu.Item>
 		  </Menu>
 		);
 	  }
