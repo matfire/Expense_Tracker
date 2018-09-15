@@ -3,7 +3,7 @@ import axios from 'axios';
 import Cookie from 'js-cookie';
 
 
-import { Form, Icon, Input, Button, Row, Col, Card } from 'antd';
+import { Form, Icon, Input, Button, Row, Col, Card, message } from 'antd';
 
 const FormItem = Form.Item;
 
@@ -17,6 +17,7 @@ class NormalLoginForm extends React.Component {
         axios.post("https://www.mindyourbudgetapi.matteogassend.com/api-token-auth/", values).then(res=>{
           Cookie.set("Authorization", "Token " + res.data.token)
           this.props.handleSubmit();
+	  message.success("Welcome Back!")
           this.props.history.push("/");
         }).catch(error => console.log(error));
       }
