@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router} from 'react-router-dom'; 
+import {BrowserRouter as Router} from 'react-router-dom';
 import BaseRouter from './routes';
 import AnonymousRouter from './anoniroutes';
 import 'antd/dist/antd.css'
@@ -24,16 +24,16 @@ class App extends Component {
 		this.setState({logged_in:true})
 	}
 	render() {
-		const content = (this.state.logged_in === true) ? 
+		const content = (this.state.logged_in === true) ?
 		<Router>
 			<CustomLayout>
 				<BaseRouter />
-		</CustomLayout>
-		</Router> : 
-		<Router> 
-			<LandingPage> 
+			</CustomLayout>
+		</Router> :
+		<Router>
+			<LandingPage>
 				<AnonymousRouter update={this.handleSubmit} />
-			</LandingPage> 
+			</LandingPage>
 		</Router>
 		return (
 			<div className="App">
