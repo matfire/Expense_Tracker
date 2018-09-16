@@ -82,8 +82,6 @@ class ExpenseCategoryList extends React.Component {
 		"loading" : true,
 	}
 	update = () => {
-		axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-		axios.defaults.xsrfCookieName = "csrftoken";
 		this.setState({loading:true})
 		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
@@ -96,8 +94,6 @@ class ExpenseCategoryList extends React.Component {
 		})
 	}
 	componentDidMount() {
-		axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-		axios.defaults.xsrfCookieName = "csrftoken";
 		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {

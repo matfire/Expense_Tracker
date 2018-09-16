@@ -2,6 +2,7 @@ import React from 'react'
 import { Menu, Icon } from 'antd';
 import { NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import ProfileHeader from './ProfileHeader'
 
 const SubMenu = Menu.SubMenu;
 
@@ -16,10 +17,12 @@ class SideMenu extends React.Component {
 	onCollapse = (collapsed) => {
 	  this.setState({collapsed})
 	}
-  
+
 	render() {
     const { location } = this.props;
 		return (
+	<div>
+		<ProfileHeader email={this.props.email} username={this.props.username}/>
           <Menu theme="dark" defaultSelectedKeys={['/']} mode="inline" selectedKeys={[location.pathname]}>
           <Menu.Item key="/profile">
             <NavLink to="/profile">
@@ -50,8 +53,9 @@ class SideMenu extends React.Component {
               <Menu.Item key="6">Team 1</Menu.Item>
               <Menu.Item key="8">Team 2</Menu.Item>
             </SubMenu>
-            
+
           </Menu>
+	  </div>
 		);
 	}
   }
