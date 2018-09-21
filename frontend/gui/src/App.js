@@ -32,6 +32,8 @@ class Provider extends React.Component {
 				})})
 	}
 	componentDidMount() {
+		if (Cookie.get("Authorization") === undefined)
+			return
 		const token = Cookie.get("Authorization").slice(6)
 		axios.post("https://mindyourbudgetapi.matteogassend.com/get_user/", {"token" : token}).then(res => {
 			const email = res.data["user"].email
@@ -83,25 +85,21 @@ class App extends Component {
 	render() {
 		const content = (this.state.logged_in === true) ?
 		<Router>
-			<CustomLayout email={this.state.email} username={this.state.username}>
-				<BaseRouter />
-			</CustomLayout>
+			<Provider>
+				<CustomLayout email={this.state.email} username={this.state.username}>
+					<BaseRouter />
+				</CustomLayout>
+			</Provider>
 		</Router> :
 		<Router>
 			<LandingPage>
-				<Context.Consumer>
-					{(context) => {
-						<AnonymousRouter update={context.state.updateState} />
-				}}
-				</Context.Consumer>
+				<AnonymousRouter update={this.handleSubmit} />
 			</LandingPage>
 		</Router>
 		return (
-			<Provider>
 				<div className="App">
 					{content}
 				</div>
-			</Provider>
 		);
 	}
 }
