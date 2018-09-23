@@ -16,20 +16,24 @@ class Provider extends React.Component {
 	state = {
 		email : "",
 		username: "",
-		updateState : this.updateState
+		first_name: "",
+		last_name: "",
+		updateState : () => {
+			const token = Cookie.get("Authorization").slice(6)
+			axios.post("https://mindyourbudgetapi.matteogassend.com/get_user/", {"token" : token}).then(res => {
+				const email = res.data["user"].email
+				const username = res.data["user"].username
+				const first_name = res.data["user"].first_name
+				const last_name = res.data["user"].last_name
+				this.setState(
+					{
+						email:email,
+						username:username,
+						first_name:first_name,
+						last_name:last_name
+					})})
+		}
 
-	}
-
-	updateState = () => {
-		const token = Cookie.get("Authorization").slice(6)
-		axios.post("https://mindyourbudgetapi.matteogassend.com/get_user/", {"token" : token}).then(res => {
-			const email = res.data["user"].email
-			const username = res.data["user"].username
-			this.setState(
-				{
-					email:email,
-					username:username
-				})})
 	}
 	componentDidMount() {
 		if (Cookie.get("Authorization") === undefined)
@@ -38,10 +42,14 @@ class Provider extends React.Component {
 		axios.post("https://mindyourbudgetapi.matteogassend.com/get_user/", {"token" : token}).then(res => {
 			const email = res.data["user"].email
 			const username = res.data["user"].username
+			const first_name = res.data["user"].first_name
+			const last_name = res.data["user"].last_name
 			this.setState(
 				{
 					email:email,
-					username:username
+					username:username,
+					first_name:first_name,
+					last_name:last_name
 				})})
 	}
 	render() {
@@ -60,18 +68,24 @@ class App extends Component {
 	state = {
 		"logged_in" : false,
 		"email" : "",
-		"username": ""
+		"username": "",
+		"first_name": "",
+		"last_name": ""
 	}
 	handleSubmit = () => {
 		const token = Cookie.get("Authorization").slice(6)
 		axios.post("https://mindyourbudgetapi.matteogassend.com/get_user/", {"token" : token}).then(res => {
 			const email = res.data["user"].email
 			const username = res.data["user"].username
+			const first_name = res.data["user"].first_name
+			const last_name = res.data["user"].last_name
 			this.setState(
 				{
 					logged_in:true,
 					email:email,
-					username:username
+					username:username,
+					first_name:first_name,
+					last_name:last_name
 				})})
 	}
 	componentDidMount() {

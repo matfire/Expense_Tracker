@@ -2,6 +2,7 @@ import React from 'react'
 import { Row, Col, Card, Avatar } from 'antd';
 import md5 from 'js-md5'
 import {Context} from '../App';
+import ModForm from '../components/UserModForm'
 
 
 class UserProfile extends React.Component {
@@ -17,10 +18,19 @@ class UserProfile extends React.Component {
 					{(context) => (
 						<Row>
 							<Col span={18} push={6}>
-								col-18 col-push-6
+								<Card>
+									<ModForm email={context.state.email}
+										 username={context.state.username}
+										 first_name={context.state.first_name}
+										 last_name={context.state.last_name}
+										 update={context.state.updateState}/>
+								</Card>
 							</Col>
 							<Col span={6} pull={18}>
-								<Avatar size={64} src={this.get_gravatar_url(context.state.email)}></Avatar>
+								<Card>
+									<Avatar size={64} src={this.get_gravatar_url(context.state.email)}></Avatar>
+									<p>{context.state.first_name} {context.state.last_name}</p>
+								</Card>
 							</Col>
 						</Row>
 					)}
