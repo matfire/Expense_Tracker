@@ -34,12 +34,17 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
+    'rest_auth',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'Administration',
     'Budget',
 ]
@@ -155,4 +160,9 @@ CORS_ALLOW_HEADERS = default_headers + (
     'Authentication',
 )
 SECURE_SSL_REDIRECT = True
-
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'matfire1999'
+EMAIL_HOST_PASSWORD = 'Galako99!!'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+SITE_ID = 1

@@ -19,7 +19,7 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import ensure_csrf_cookie
-
+from Administration.views import CustomTokenAuth, get_user_from_token
 
 
 urlpatterns = [
@@ -27,9 +27,10 @@ urlpatterns = [
     path('api-auth/', include("rest_framework.urls")),
     path("api/budget/", include("Budget.api.urls")),
     path("api/users/", include("Administration.api.urls")),
-    
+    path("rest-auth/registration/", include("rest_auth.registration.urls")),
+    path("get_user/", get_user_from_token.as_view()),    
 ]
 from rest_framework.authtoken import views
 urlpatterns += [
-    url(r'^api-token-auth/', views.obtain_auth_token)
+    url(r'^api-token-auth/', CustomTokenAuth.as_view()),
 ]
