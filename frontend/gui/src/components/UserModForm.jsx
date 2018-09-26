@@ -124,7 +124,7 @@ class UserModForm extends React.Component {
 							              validator: this.validateToNextPassword,
 							            }],
 							          })(
-							            <Input type="password" />
+							            <Input type="password" placeholder="new password"/>
 							          )}
 							        </FormItem>
 							        <FormItem
@@ -138,7 +138,7 @@ class UserModForm extends React.Component {
 							              validator: this.compareToFirstPassword,
 							            }],
 							          })(
-							            <Input type="password" onBlur={this.handleConfirmBlur} />
+							            <Input type="password" onBlur={this.handleConfirmBlur} placeholder="confirm your password" />
 							          )}
 							        </FormItem>
 							  <FormItem
