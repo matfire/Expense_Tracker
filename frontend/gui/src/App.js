@@ -18,6 +18,11 @@ class Provider extends React.Component {
 		username: "",
 		first_name: "",
 		last_name: "",
+		inlet_categories:[],
+		inlets:[],
+		outlets:[],
+		outlet_categories:[],
+		year_evolution:[],
 		updateState : () => {
 			const token = Cookie.get("Authorization").slice(6)
 			axios.post("https://mindyourbudgetapi.matteogassend.com/get_user/", {"token" : token}).then(res => {
@@ -27,30 +32,25 @@ class Provider extends React.Component {
 				const last_name = res.data["user"].last_name
 				this.setState(
 					{
+						logged_in:true,
 						email:email,
 						username:username,
 						first_name:first_name,
 						last_name:last_name
 					})})
+			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/chart/", {
+				headers : {"Authorization" : Cookie.get("Authorization")}
+			}).then(res => {this.setState({year_evolution: res.data})})
+			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/chart/", {
+				headers : {"Authorization" : Cookie.get("Authorization")}
+			}).then(res => {this.setState({inlet_categories: res.data,})})
 		}
 
 	}
 	componentDidMount() {
 		if (Cookie.get("Authorization") === undefined)
 			return
-		const token = Cookie.get("Authorization").slice(6)
-		axios.post("https://mindyourbudgetapi.matteogassend.com/get_user/", {"token" : token}).then(res => {
-			const email = res.data["user"].email
-			const username = res.data["user"].username
-			const first_name = res.data["user"].first_name
-			const last_name = res.data["user"].last_name
-			this.setState(
-				{
-					email:email,
-					username:username,
-					first_name:first_name,
-					last_name:last_name
-				})})
+		this.state.updateState()
 	}
 	render() {
 		return(
@@ -106,9 +106,17 @@ class App extends Component {
 			</Provider>
 		</Router> :
 		<Router>
+			<Provider>
+				<Context.Consumer>
+				{(context) => (
 			<LandingPage>
-				<AnonymousRouter update={this.handleSubmit} />
-			</LandingPage>
+				<AnonymousRouter update={() => {
+						this.handleSubmit()
+						context.state.updateState()
+					}} />
+			</LandingPage>)}
+			</Context.Consumer>
+			</Provider>
 		</Router>
 		return (
 				<div className="App">
