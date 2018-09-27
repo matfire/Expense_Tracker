@@ -18,8 +18,9 @@ class Provider extends React.Component {
 		username: "",
 		first_name: "",
 		last_name: "",
-		inlet_categories:[],
+		inlet_categories_chart:[],
 		inlets:[],
+		inlets_categories:[],
 		outlets:[],
 		outlet_categories:[],
 		year_evolution:[],
@@ -38,12 +39,36 @@ class Provider extends React.Component {
 						first_name:first_name,
 						last_name:last_name
 					})})
+			this.state.updateCategoryChart()
+			this.state.updateBudget()
+			this.state.updateInlets()
+			this.state.updateInletsCategories()
+		},
+		updateCategoryChart: () => {
+			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/chart/", {
+				headers : {"Authorization" : Cookie.get("Authorization")}
+			}).then(res => {this.setState({inlet_categories_chart: res.data,})})
+		},
+		updateBudget: () => {
 			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/chart/", {
 				headers : {"Authorization" : Cookie.get("Authorization")}
 			}).then(res => {this.setState({year_evolution: res.data})})
-			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/chart/", {
-				headers : {"Authorization" : Cookie.get("Authorization")}
-			}).then(res => {this.setState({inlet_categories: res.data,})})
+		},
+		updateInlets: () => {
+			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/", {
+				headers : {"Authorization" : Cookie.get("Authorization")}}).then(
+					res => {
+						this.setState({inlets:res.data})
+					}
+				)
+			this.state.updateBudget()
+		},
+		updateInletsCategories: () => {
+			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
+				headers : {"Authorization" : Cookie.get("Authorization")}}).then(res => {
+					this.setState({inlets_categories:res.data})
+				})
+			this.state.updateCategoryChart()
 		}
 
 	}

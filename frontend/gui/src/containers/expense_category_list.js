@@ -3,6 +3,9 @@ import axios from 'axios';
 import ExpenseCategory from '../components/expense_category';
 import Cookie from 'js-cookie';
 import {Form, Button, Modal, Input, Spin, message} from 'antd';
+import {Context} from '../App'
+
+
 const FormItem = Form.Item;
 
 const FormExpense = Form.create()(
@@ -105,12 +108,14 @@ class ExpenseCategoryList extends React.Component {
 	}
 	render() {
 		return (
-			<Spin spinning={this.state.loading}>
-			<div>
-			<ExpenseCategory data={this.state.categories}/>
-			<ExpenseCategoryCreateForm update={this.update}/>
-			</div>
-			</Spin>
+			<Context.Consumer>
+				{(context) => (
+					<div>
+					<ExpenseCategory data={context.state.inlets_categories}/>
+					<ExpenseCategoryCreateForm update={context.state.updateInletsCategories}/>
+					</div>
+					)}
+			</Context.Consumer>
 		)
 	}
 }

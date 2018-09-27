@@ -3,6 +3,7 @@ import InletTable from '../components/inlets';
 import axios from 'axios'
 import Cookie from 'js-cookie';
 import {Spin, message} from 'antd';
+import {Context} from '../App'
 class InletList extends React.Component {
 	state = {
 		data : [],
@@ -35,9 +36,11 @@ class InletList extends React.Component {
 
 	render() {
 		return (
-			<Spin spinning={this.state.loading}>
-			<InletTable data={this.state.data} update={this.handleUpdate}/>
-			</Spin>
+			<Context.Consumer>
+				{(context) => (
+			<InletTable data={context.state.inlets} update={context.state.updateInlets}/>
+			)}
+		</Context.Consumer>
 		)
 	}
 }

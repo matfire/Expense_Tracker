@@ -21,7 +21,7 @@ class Category_Chart extends React.Component {
 			<Card title="Frequently Used Categories">
 				<PieChart width={300} height={300}>
 					<Pie
-          					data={context.state.inlet_categories}
+          					data={context.state.inlet_categories_chart}
           					cx={120}
 					        cy={200}
           					innerRadius={60}
@@ -30,7 +30,7 @@ class Category_Chart extends React.Component {
           					paddingAngle={3}
         				>
         				{
-          					context.state.inlet_categories.map((entry, index) => <Cell fill={this.setColors(context.state.inlet_categories)[index % this.setColors(context.state.inlet_categories).length]}/>)
+          					context.state.inlet_categories_chart.map((entry, index) => <Cell fill={this.setColors(context.state.inlet_categories_chart)[index % this.setColors(context.state.inlet_categories_chart).length]}/>)
           				}
         				</Pie>
 					<Tooltip />

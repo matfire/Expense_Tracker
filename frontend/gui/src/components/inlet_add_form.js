@@ -4,6 +4,8 @@ import { DatePicker } from 'antd';
 import React from 'react';
 import axios from 'axios';
 import Cookie from 'js-cookie';
+import {Context} from '../App'
+
 const FormItem = Form.Item;
 const CollectionCreateForm = Form.create()(
   class extends React.Component {
@@ -93,7 +95,6 @@ class CollectionsPage extends React.Component {
     axios.post("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/add/", values, {
       headers : {"Authorization" : Cookie.get("Authorization")}
     }).then( res => {
-        this.props.update();
 	message.success("Inlet added correctly")
     })
       form.resetFields();
@@ -109,15 +110,22 @@ class CollectionsPage extends React.Component {
 
   render() {
     return (
-      <div>
-        <Button type="primary" onClick={this.showModal}>Add Inlet</Button>
-        <CollectionCreateForm
-          wrappedComponentRef={this.saveFormRef}
-          visible={this.state.visible}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreate}
-        />
-      </div>
+	    <Context.Consumer>
+		    {(context) => (
+			      <div>
+			        <Button type="primary" onClick={this.showModal}>Add Inlet</Button>
+			        <CollectionCreateForm
+			          wrappedComponentRef={this.saveFormRef}
+			          visible={this.state.visible}
+			          onCancel={this.handleCancel}
+			          onCreate={() => {
+					  this.handleCreate()
+					  context.state.updateInlets()
+				  	}}
+			        />
+			      </div>
+			      )}
+      </Context.Consumer>
     );
   }
 }
