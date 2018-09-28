@@ -11,7 +11,7 @@ class CustomLayout extends React.Component {
       <Layout style={{ minHeight: '100vh' }}>
         <Sider>
           <div className="logo" />
-          <SideMenu />
+          <SideMenu/>
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0 }} />

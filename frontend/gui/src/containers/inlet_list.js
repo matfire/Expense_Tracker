@@ -2,35 +2,46 @@ import React from 'react';
 import InletTable from '../components/inlets';
 import axios from 'axios'
 import Cookie from 'js-cookie';
+import {Spin, message} from 'antd';
+import {Context} from '../App'
 class InletList extends React.Component {
 	state = {
-		data : []
+		data : [],
+		loading : true
 	}
 
 	componentDidMount() {
-		axios.defaults.xsrfCookieName = 'csrftoken'
-		axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-		axios.get('http://127.0.0.1:8000/api/budget/inlet/', {
+		axios.get('https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/', {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then( (res) => {
-			this.setState({data:res.data})
+			this.setState({data:res.data, loading:false})
 		}
 		)
 	}
 	handleUpdate = () => {
-		axios.defaults.xsrfCookieName = 'csrftoken'
-		axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-		axios.get("http://127.0.0.1:8000/api/budget/category/", {
+		this.setState({
+			data : [],
+			loading: true
+		})
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {
 			this.setState({
-				data : res.data
+				data : res.data,
+				loading : false
 			})
+			window.location.reload()
 		})
 	}
 
 	render() {
-		return <InletTable data={this.state.data} update={this.handleUpdate}/>
+		return (
+			<Context.Consumer>
+				{(context) => (
+			<InletTable data={context.state.inlets} update={context.state.updateInlets}/>
+			)}
+		</Context.Consumer>
+		)
 	}
 }
 

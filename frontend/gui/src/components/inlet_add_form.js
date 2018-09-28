@@ -1,9 +1,11 @@
-import { Button, Modal, Form, Input, Select, Alert } from 'antd';
+import { Button, Modal, Form, Input, Select, Alert, message } from 'antd';
 import { DatePicker } from 'antd';
 
 import React from 'react';
 import axios from 'axios';
 import Cookie from 'js-cookie';
+import {Context} from '../App'
+
 const FormItem = Form.Item;
 const CollectionCreateForm = Form.create()(
   class extends React.Component {
@@ -13,7 +15,7 @@ const CollectionCreateForm = Form.create()(
 	componentDidMount() {
 		// axios.defaults.xsrfCookieName = 'csrftoken'
 		// axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-		axios.get("http://127.0.0.1:8000/api/budget/category/", {
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
       headers : {"Authorization" : Cookie.get("Authorization")}
 
     }).then(res => {this.setState({categories:res.data})}).catch(res=>console.log(res))
@@ -24,7 +26,7 @@ const CollectionCreateForm = Form.create()(
       const { visible, onCancel, onCreate, form } = this.props;
 	  const { getFieldDecorator } = form;
 	  const Option = Select.Option
-	  const Options = this.state.categories.map((item) => 
+	  const Options = this.state.categories.map((item) =>
 		<Option value={item.id} key={item.id}>{item.name}</Option>
 	)
       return (
@@ -74,7 +76,6 @@ const CollectionCreateForm = Form.create()(
 class CollectionsPage extends React.Component {
   state = {
     visible: false,
-    message_visible : false,
   };
 
   showModal = () => {
@@ -91,17 +92,13 @@ class CollectionsPage extends React.Component {
       if (err) {
         return;
       }
-    axios.post("http://127.0.0.1:8000/api/budget/inlet/add/", values, {
+    axios.post("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/add/", values, {
       headers : {"Authorization" : Cookie.get("Authorization")}
     }).then( res => {
-      if (true) {
-        this.setState({message_visible : true});
-        this.props.update;
-      }
+	message.success("Inlet added correctly")
     })
       form.resetFields();
 	  this.setState({ visible: false });
-	  //window.location.reload()
     });
   }
 
@@ -112,19 +109,23 @@ class CollectionsPage extends React.Component {
 
 
   render() {
-    const alert = (this.state.message_visible === true) ? <Alert message="Inlet added succesfully" type="success" closable={true}/> : <p></p>;
-
     return (
-      <div>
-        {alert}
-        <Button type="primary" onClick={this.showModal}>Add Inlet</Button>
-        <CollectionCreateForm
-          wrappedComponentRef={this.saveFormRef}
-          visible={this.state.visible}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreate}
-        />
-      </div>
+	    <Context.Consumer>
+		    {(context) => (
+			      <div>
+			        <Button type="primary" onClick={this.showModal}>Add Inlet</Button>
+			        <CollectionCreateForm
+			          wrappedComponentRef={this.saveFormRef}
+			          visible={this.state.visible}
+			          onCancel={this.handleCancel}
+			          onCreate={() => {
+					  this.handleCreate()
+					  context.state.updateInlets()
+				  	}}
+			        />
+			      </div>
+			      )}
+      </Context.Consumer>
     );
   }
 }

@@ -2,7 +2,9 @@ import React from 'react';
 import axios from 'axios';
 import ExpenseCategory from '../components/expense_category';
 import Cookie from 'js-cookie';
-import {Form, Button, Modal, Input} from 'antd';
+import {Form, Button, Modal, Input, Spin, message} from 'antd';
+import {Context} from '../App'
+
 
 const FormItem = Form.Item;
 
@@ -36,31 +38,32 @@ class ExpenseCategoryCreate extends React.Component {
 class ExpenseCategoryCreateForm extends React.Component {
 	state = {
 	  visible: false,
-	};  
+	};
 	showModal = () => {
 	  this.setState({ visible: true });
 	}
-	  
+
 	handleCancel = () => {
 	  this.setState({ visible: false });
-	}	  
+	}
 	handleCreate = () => {
 	  const form = this.formRef.props.form;
 	  form.validateFields((err, values) => {
 		if (err) {
 		  return;
 		}
-		axios.post("http://127.0.0.1:8000/api/budget/category/", values, {
+		axios.post("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", values, {
 			headers: {"Authorization" : Cookie.get("Authorization")}
 		})
 		form.resetFields();
 		this.setState({ visible: false });
+		this.props.update()
 		});
 	}
 	saveFormRef = (formRef) => {
 		this.formRef = formRef;
 	}
-	  
+
 	render() {
 		return (
 			<div>
@@ -78,36 +81,41 @@ class ExpenseCategoryCreateForm extends React.Component {
 class ExpenseCategoryList extends React.Component {
 
 	state = {
-		"categories" : []
+		"categories" : [],
+		"loading" : true,
 	}
 	update = () => {
-		axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-		axios.defaults.xsrfCookieName = "csrftoken";
-		axios.get("http://127.0.0.1:8000/api/budget/category/", {
+		this.setState({loading:true})
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {
 			this.setState({
-				categories : res.data
+				categories : res.data,
+				loading: false,
 			})
-		})	
+			message.success("category added succesfully")
+		})
 	}
 	componentDidMount() {
-		axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-		axios.defaults.xsrfCookieName = "csrftoken";
-		axios.get("http://127.0.0.1:8000/api/budget/category/", {
+		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 			headers : {"Authorization" : Cookie.get("Authorization")}
 		}).then(res => {
 			this.setState({
-				categories : res.data
+				categories : res.data,
+				loading : false,
 			})
 		})
 	}
 	render() {
 		return (
-			<div>
-			<ExpenseCategory data={this.state.categories}/>
-			<ExpenseCategoryCreateForm update={this.update}/>
-			</div>
+			<Context.Consumer>
+				{(context) => (
+					<div>
+					<ExpenseCategory data={context.state.inlets_categories}/>
+					<ExpenseCategoryCreateForm update={context.state.updateInletsCategories}/>
+					</div>
+					)}
+			</Context.Consumer>
 		)
 	}
 }
