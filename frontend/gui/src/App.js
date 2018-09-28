@@ -47,18 +47,25 @@ class Provider extends React.Component {
 		updateCategoryChart: () => {
 			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/chart/", {
 				headers : {"Authorization" : Cookie.get("Authorization")}
-			}).then(res => {this.setState({inlet_categories_chart: res.data,})})
+			}).then(res => {
+				this.setState({inlet_categories_chart: res.data,})
+				console.log("updated charts")
+				})
 		},
 		updateBudget: () => {
 			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/chart/", {
 				headers : {"Authorization" : Cookie.get("Authorization")}
-			}).then(res => {this.setState({year_evolution: res.data})})
+			}).then(res => {
+				this.setState({year_evolution: res.data})
+				console.log("updated budget")
+				})
 		},
 		updateInlets: () => {
 			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/inlet/", {
 				headers : {"Authorization" : Cookie.get("Authorization")}}).then(
 					res => {
 						this.setState({inlets:res.data})
+						console.log("updated inlets")
 					}
 				)
 			this.state.updateBudget()
@@ -67,6 +74,7 @@ class Provider extends React.Component {
 			axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
 				headers : {"Authorization" : Cookie.get("Authorization")}}).then(res => {
 					this.setState({inlets_categories:res.data})
+					console.log("updated inlet categories")
 				})
 			this.state.updateCategoryChart()
 		}

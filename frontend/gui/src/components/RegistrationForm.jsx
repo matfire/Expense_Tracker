@@ -7,9 +7,8 @@ const FormItem = Form.Item;
 class RegistrationForm extends React.Component {
 	state = {
 	  confirmDirty: false,
-	  autoCompleteResult: [],
 	};
-  
+
 	handleSubmit = (e) => {
 	  e.preventDefault();
 	  this.props.form.validateFieldsAndScroll((err, values) => {
@@ -31,17 +30,17 @@ class RegistrationForm extends React.Component {
 					}
 				}
 			}
-			
+
 			)
 		}
 	  });
 	}
-  
+
 	handleConfirmBlur = (e) => {
 	  const value = e.target.value;
 	  this.setState({ confirmDirty: this.state.confirmDirty || !!value });
 	}
-  
+
 	compareToFirstPassword = (rule, value, callback) => {
 	  const form = this.props.form;
 	  if (value && value !== form.getFieldValue('password1')) {
@@ -50,7 +49,7 @@ class RegistrationForm extends React.Component {
 		callback();
 	  }
 	}
-  
+
 	validateToNextPassword = (rule, value, callback) => {
 	  const form = this.props.form;
 	  if (value && this.state.confirmDirty) {
@@ -61,7 +60,7 @@ class RegistrationForm extends React.Component {
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const { autoCompleteResult } = this.state;
-	
+
 		const formItemLayout = {
 		  labelCol: {
 			xs: { span: 24 },
@@ -84,7 +83,7 @@ class RegistrationForm extends React.Component {
 			},
 		  },
 		};
-	
+
 		return (
 		  <Form onSubmit={this.handleSubmit}>
 			<FormItem
@@ -153,7 +152,7 @@ class RegistrationForm extends React.Component {
 		);
 	  }
 	}
-	
+
 	const RegisterForm = Form.create()(RegistrationForm);
 
 	export default RegisterForm;

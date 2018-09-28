@@ -79,33 +79,6 @@ class ExpenseCategoryCreateForm extends React.Component {
 	}
 }
 class ExpenseCategoryList extends React.Component {
-
-	state = {
-		"categories" : [],
-		"loading" : true,
-	}
-	update = () => {
-		this.setState({loading:true})
-		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
-			headers : {"Authorization" : Cookie.get("Authorization")}
-		}).then(res => {
-			this.setState({
-				categories : res.data,
-				loading: false,
-			})
-			message.success("category added succesfully")
-		})
-	}
-	componentDidMount() {
-		axios.get("https://www.mindyourbudgetapi.matteogassend.com/api/budget/category/", {
-			headers : {"Authorization" : Cookie.get("Authorization")}
-		}).then(res => {
-			this.setState({
-				categories : res.data,
-				loading : false,
-			})
-		})
-	}
 	render() {
 		return (
 			<Context.Consumer>
